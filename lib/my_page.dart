@@ -180,7 +180,7 @@ class _MyPageState extends State<MyPage> {
                             ),
                             const SizedBox(width: 8),
                             // 상승/하강/유지 표시
-                            _buildTrendIcon(icons[index]),
+                            // _buildTrendIcon(icons[index]),
                           ],
                         ),
                       );
@@ -191,12 +191,12 @@ class _MyPageState extends State<MyPage> {
             ),
           ),
 
-          actions: [
-          ],
-          automaticallyImplyLeading: false,
-
-
-
+          // actions: [
+          // ],
+          // automaticallyImplyLeading: false,
+          //
+          //
+          //
         //하단 바
         bottomNavigationBar: BottomNavBar(data : widget.data),
       ),
