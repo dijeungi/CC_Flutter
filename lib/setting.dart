@@ -88,7 +88,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SearchPage(data: _selectedIndex),
+          builder: (context) => MyPage(data: _selectedIndex),
         ),
       );
     }

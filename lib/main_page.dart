@@ -29,16 +29,6 @@ class _MainPageState extends State<MainPage> {
   late Timer _timer;
   late PageController _pageController;
   final List<String> _imageList = [
-    // "https://image.toast.com/aaaaab/ticketlink/TKL_4/PC_%EC%8D%B8%EB%84%A4%EC%9D%BC_2%EC%9B%94%EB%A7%81%ED%81%AC%ED%94%BD.jpg",
-    // "//image.toast.com/aaaaab/ticketlink/TKL_2/thumbnail_pc_2025SoundberryTheater.jpg",
-    // "//image.toast.com/aaaaab/ticketlink/TKL_5/thumbnail_pc_지킬앤하이드(1).jpg",
-    // "//image.toast.com/aaaaab/ticketlink/TKL_2/thumbnail_pc_나상현씨밴드.jpg",
-    // "//image.toast.com/aaaaab/ticketlink/TKL_4/thumbnail_pc_성웅.jpg",
-    // "//image.toast.com/aaaaab/ticketlink/TKL_10/thumbnail_pc_연극꽃의비밀_0107(1).jpg",
-    // "//image.toast.com/aaaaab/ticketlink/TKL_3/thumbnail_pc_어썸부산.jpg",
-    // "//image.toast.com/aaaaab/ticketlink/TKL_9/thumbnail_pc_명성황후(1).jpg",
-    // "//image.toast.com/aaaaab/ticketlink/TKL_4/thumbnail_pc_비엔나1900.jpg",
-    // "//image.toast.com/aaaaab/ticketlink/TKL_1/thumbnail_pc_서울커피엑스포.jpg"
     "https://image.toast.com/aaaaab/ticketlink/TKL_7/PC_BigBanner_2%EC%9B%94%EB%A7%81%ED%81%AC%ED%94%BD.jpg",
     "https://image.toast.com/aaaaab/ticketlink/TKL_1/PC_BigBanner_2025SoundberryTheater.jpg",
     "https://image.toast.com/aaaaab/ticketlink/TKL_10/PC_BigBanner_%EC%A7%80%ED%82%AC%EC%95%A4%ED%95%98%EC%9D%B4%EB%93%9C.jpg",
@@ -75,7 +65,7 @@ class _MainPageState extends State<MainPage> {
     _timer = Timer.periodic(Duration(seconds: 3), (timer) {
       setState(() {
         _currentIndex = (_currentIndex + 1) % _imageList.length;
-        print(_timer);
+        // print(_timer);
         // PageView 페이지를 애니메이션과 함께 이동
         _pageController.animateToPage(
           _currentIndex,
