@@ -88,13 +88,13 @@ class _SearchPageState extends State<SearchPage> {
         );
       });
     });
-    festivalSearchMain();
+    festivalSearchMain(7);
   }
 
-  Future<void> festivalSearchMain() async {
+  Future<void> festivalSearchMain(int limit) async {
     // _posterList.clear();
     final response = await http.get(
-      Uri.parse('http://10.0.2.2:8080/api/festival/ranking/limit'),
+      Uri.parse('http://10.0.2.2:8080/api/festival/ranking/limit?limit=$limit'),
       headers: {"Content-Type": "application/json"},
     );
 
@@ -197,6 +197,7 @@ class _SearchPageState extends State<SearchPage> {
 
                   // 추천 검색어 영역 (배너)
                   // 이미지 예시 (가로로 꽉 차게)
+                  _imageList.isNotEmpty ?
                   Container(
                     height: 120,
                     width: double.infinity,
@@ -229,7 +230,11 @@ class _SearchPageState extends State<SearchPage> {
                         },
                       ),
                     ),
-                  ),
+                  )
+
+                   : SizedBox(),
+
+
 
                    SizedBox(height: 20),
 
@@ -258,6 +263,7 @@ class _SearchPageState extends State<SearchPage> {
 
                   // 인기 검색어 목록
                   // 예시로 7개 항목을 ListView.builder로 표시(단, SingleChildScrollView 내부이므로 shrinkWrap 필요)
+                  titles.isNotEmpty ?
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -329,7 +335,8 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                       );
                     },
-                  ),
+                  )
+                  : SizedBox(),
 
 
 
