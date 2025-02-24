@@ -5,6 +5,8 @@ import 'package:cc_flutter/setting.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'login.dart';
+
 class MyPage extends StatefulWidget {
   final int data;
   const MyPage({super.key,required this.data});
@@ -200,7 +202,15 @@ class _MyPageState extends State<MyPage> {
                     backgroundColor:  Color.fromARGB(255, 252, 164, 114), // 이전 'primary'
                     foregroundColor: Colors.white,    // 이전 'onPrimary'
                   ),
-                  onPressed: () => (), // 클릭 시 함수 호출
+                  onPressed: () => (
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LoginPage(),
+                        ),
+                      ),
+
+                  ), // 클릭 시 함수 호출
                   child: Text('로그인',
                     style: TextStyle(
                       fontSize: 15,
