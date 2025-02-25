@@ -1,3 +1,4 @@
+import 'package:cc_flutter/login.dart';
 import 'package:cc_flutter/main_page.dart';
 import 'package:cc_flutter/ranking.dart';
 import 'package:cc_flutter/search.dart';
@@ -35,12 +36,59 @@ class _SettingPageState extends State<SettingPage> {
           actions: [
           ],
           automaticallyImplyLeading: false,
+
         ),
+        body: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+          children: [
+            SizedBox(height: 10,),
+            _buildProfileTile('김범석', '사용자 계정', Icons.person),
+            SizedBox(height: 30,),
+            _buildTile('티켓 내역', '티켓 구매 내역', Icons.lightbulb),
+            SizedBox(height: 10,),
+            _buildTile('', 'Wi-Fi · 블루투스 · SIM 관리자', Icons.wifi),
+            SizedBox(height: 10,),
+            _buildTile('기기 간 연결', 'Quick Share · Android Auto', Icons.devices),
+            SizedBox(height: 10,),
+            _buildTile('T 로밍', '데이터 로밍 · 로밍 설정', Icons.language),
+            SizedBox(height: 10,),
+            _buildTile('Galaxy AI', '대화 어시스트 · 노트 어시스트 · 포토 어시스트', Icons.stars),
+            SizedBox(height: 10,),
+            // _buildTile('모드 및 루틴', '모드 · 루틴', Icons.check_circle),
+            // SizedBox(height: 10,),
+          ],
+        ),
+
         //하단 바
         bottomNavigationBar: BottomNavBar(data : widget.data,id: widget.id,email: widget.email,nickname: widget.nickname),
       ),
     );
   }
+}
+Widget _buildProfileTile(String title, String subtitle, IconData icon) {
+  return ListTile(
+
+    leading: Icon(icon, size: 40, color: Colors.black),
+    title: Text(title, style: const TextStyle(color: Colors.black, fontSize: 18)),
+    subtitle: Text(subtitle, style: const TextStyle(color: Colors.black54)),
+    trailing: const Icon(Icons.person_outline, color: Colors.black54),
+    tileColor: Colors.white,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
+  );
+
+}
+
+Widget _buildTile(String title, String subtitle, IconData icon) {
+  return ListTile(
+    leading: Icon(icon, size: 30, color: Colors.black),
+    title: Text(title, style: const TextStyle(color: Colors.black, fontSize: 16)),
+    subtitle: Text(subtitle, style: const TextStyle(color: Colors.black54)),
+    trailing: const Icon(Icons.chevron_right, color: Colors.black54),
+    tileColor: Colors.white,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+  );
 }
 class BottomNavBar extends StatefulWidget {
   final int data;
@@ -94,7 +142,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MyPage(data: _selectedIndex,id: widget.id,email: widget.email,nickname: widget.nickname),
+          builder: (context) => LoginPage(),//data: _selectedIndex,id: widget.id,email: widget.email,nickname: widget.nickname
         ),
       );
     }

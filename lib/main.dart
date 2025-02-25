@@ -11,7 +11,7 @@ void main() async {
   await dotenv.load(fileName: ".env");
   KakaoSdk.init(
     nativeAppKey:  dotenv.env['KAKAO_NATIVE_APP_KEY'] ?? 'Not Found : KAKAO_NATIVE_APP_KEY', // '${KAKAO_NATIVE_APP_KEY}',
-    // javaScriptAppKey: dotenv.env['KAKAO_JAVASCRIPT_APP_KEY'] ?? 'Not Found : KAKAO_JAVASCRIPT_APP_KEY' // '${YOUR_JAVASCRIPT_APP_KEY}',
+    // javaScriptAppKey: dotenv..env['KAKAO_JAVASCRIPT_APP_KEY'] ?? 'Not Found : KAKAO_JAVASCRIPT_APP_KEY' // '${YOUR_JAVASCRIPT_APP_KEY}',
   );
 
   runApp(const MyApp());

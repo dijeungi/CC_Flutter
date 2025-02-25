@@ -9,6 +9,8 @@ import 'package:cc_flutter/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+
+import 'login.dart';
 // import 'package:carousel_slider/carousel_slider.dart';
 // import 'package:carousel_slider/carousel_controller.dart' as carousel_slider;
 
@@ -438,7 +440,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SettingPage(data: _selectedIndex,id: widget.id,email: widget.email,nickname: widget.nickname),
+          builder: (context) => LoginPage(),//data: _selectedIndex,id: widget.id,email: widget.email,nickname: widget.nickname
         ),
       );
     }

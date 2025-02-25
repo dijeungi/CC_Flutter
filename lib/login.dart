@@ -1,68 +1,183 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:cc_flutter/ranking.dart';
+import 'package:cc_flutter/search.dart';
+import 'package:cc_flutter/url/oauth2_url.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-// import 'package:flutter_naver_login/flutter_naver_login.dart';
-// import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
- import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:http/http.dart' as http;
 
+import 'main_page.dart';
+import 'my_page.dart';
+import 'naverlogin.dart';
+
 class LoginPage extends StatefulWidget {
-  // final String dotenv_clientId = dotenv.env["NAVER_CLIENT_ID"] ?? "";
-  // final String dotenv_clientPw = dotenv.env["NAVER_CLIENT_SECRET"] ?? "";
-  // final String dotenv_redirectUri = dotenv.env["NAVER_REDIRECT_URL"] ?? "";
-  // static String generateRandomState(int length) {
-  //   const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  //   final random = Random.secure();
-  //   return List.generate(length, (_) => charset[random.nextInt(charset.length)]).join();
-  // }
+
   LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
+class BottomNavBar extends StatefulWidget {
+
+  const BottomNavBar({super.key});
+
+
+  @override
+  _BottomNavBarState createState() => _BottomNavBarState();
+}
+
+class _BottomNavBarState extends State<BottomNavBar> {
+  late int _selectedIndex; // 현재 선택된 인덱스
+
+  @override
+  void initState(){
+    super.initState();
+    _selectedIndex = 4;
+    // _selectedIndex =  0;
+  }
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              SearchPage(data: _selectedIndex,
+                  id: '',
+                  email: '',
+                  nickname: ''),
+        ),
+      );
+    }
+    if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              RankingPage(data: _selectedIndex,
+                  id: '',
+                  email: '',
+                  nickname: ''),
+        ),
+      );
+    }
+    if (index == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              MainPage(data: _selectedIndex,
+                  id: '',
+                  email: '',
+                  nickname: ''),
+        ),
+      );
+    }
+    if (index == 4) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              MyPage(data: _selectedIndex,
+                  id: '',
+                  email: '',
+                  nickname: ''),
+        ),
+      );
+    }
+  }
+  @override
+  Widget build(BuildContext context) {
+    return BottomAppBar(
+      color: Colors.grey[70],
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: List.generate(5, (index) {
+          bool isSelected = _selectedIndex == index; // 현재 선택된 아이템인지 확인
+          return GestureDetector(
+            onTap: () => _onItemTapped(index),
+            child: AnimatedContainer(
+              duration: Duration(milliseconds: 200),
+              curve: Curves.easeOut,
+              padding: EdgeInsets.only(
+                top: isSelected ? 0 : 5, // 선택 시 살짝 위로 이동
+                bottom: isSelected ? 5 : 0, // 선택 시 떠오르는 효과
+              ),
+              decoration: BoxDecoration(
+                // color: isSelected ? Color.fromARGB(255, 252, 164, 114) : Colors.transparent, // ✅ 선택된 항목 배경색 변경
+                borderRadius: BorderRadius.circular(10), // 둥근 모서리 추가
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0), // 내부 여백 조정
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      _getIcon(index),
+                      color: isSelected ? Colors.black : Colors.grey, // ✅ 선택된 아이콘 색상 변경
+                      size: isSelected ? 27 : 25, // 선택된 아이콘 크기 증가
+                    ),
+                    Text(
+                      _getLabel(index),
+                      style: TextStyle(
+                        color: isSelected ? Colors.black : Colors.grey, // ✅ 선택된 텍스트 색상 변경
+                        fontWeight: isSelected ? FontWeight.bold : FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+
+  // 아이콘 설정
+  IconData _getIcon(int index) {
+    switch (index) {
+      case 0:
+        return Icons.search;
+      case 1:
+        return Icons.account_balance;
+      case 2:
+        return Icons.home;
+      case 3:
+        return Icons.person;
+      case 4:
+        return Icons.settings;
+      default:
+        return Icons.help;
+    }
+  }
+
+  // 라벨 설정
+  String _getLabel(int index) {
+    switch (index) {
+      case 0:
+        return "검색";
+      case 1:
+        return "랭킹";
+      case 2:
+        return "홈";
+      case 3:
+        return "MY";
+      case 4:
+        return "설정";
+      default:
+        return "";
+    }
+  }
+}
 
 class _LoginPageState extends State<LoginPage> {
-  // String? _navernickname;
-  // String? _naveremail;
-  // String? _naverid;
-  // String? _naverAccessToken;
-  // Future<void> _loginWithNaver() async {
-  //   try {
-  //     final NaverLoginResult result = await FlutterNaverLogin.logIn();
-  //
-  //     if (result.status == NaverLoginStatus.loggedIn) {
-  //       final NaverAccessToken accessToken = await FlutterNaverLogin.currentAccessToken;
-  //       final NaverAccountResult user = result.account;
-  //
-  //       setState(() {
-  //         _naverAccessToken = accessToken.accessToken;
-  //         _naveremail = user.email ?? '이메일 없음';
-  //         _navernickname = user.nickname ?? '닉네임 없음';
-  //       });
-  //
-  //       print('네이버 로그인 성공: ${user.nickname}, ${user.email}, ${accessToken.accessToken}');
-  //     } else {
-  //       print('네이버 로그인 실패: ${result.errorMessage}');
-  //     }
-  //   } catch (e) {
-  //     print('네이버 로그인 중 오류 발생: $e');
-  //   }
-  // }
-  //
-  // Future<void> _logout() async {
-  //   await FlutterNaverLogin.logOut();
-  //   setState(() {
-  //     _naverAccessToken = null;
-  //     _naveremail = null;
-  //     _navernickname = null;
-  //   });
-  //   print('네이버 로그아웃 성공');
-  // }
-// 사용 예시:
-//   final String state = LoginPage.generateRandomState(32); // ✅ 32자 랜덤 문자열 생성
+
+  bool isLogin = false;
 
 
   //카카오
@@ -154,21 +269,40 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
-          onPressed: () {},
+        backgroundColor: Color.fromARGB(255, 252, 164, 114),
+        title: Text('Campus Concert',
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 25
+          ),
         ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Text('로그인', style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
-        centerTitle: true,
+
+        actions: [
+        ],
+        automaticallyImplyLeading: false,
       ),
+      bottomNavigationBar: BottomNavBar(),
+
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Text(
+                '로그인',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 16),
+              // 빨간색 구분선
+              Container(
+                height: 2,
+                color: Colors.red,
+              ),
               const SizedBox(height: 20),
               // 아이디 입력 필드
               TextField(
@@ -236,6 +370,14 @@ class _LoginPageState extends State<LoginPage> {
                   GestureDetector(
                     onTap: () {
                       // _loginWithNaver();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SocialAuthScreen(
+                              oauth2Url: Oauth2Url.naverAuthenUrl,
+                              oauth2RedirectUrl: Oauth2Url.naverRedirectUrl,
+                            ),
+                          ));
                     },
                     child: Column(
                       children: [
@@ -284,8 +426,11 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+
     );
+
   }
+
   }
 
 

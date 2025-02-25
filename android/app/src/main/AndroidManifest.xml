@@ -2,6 +2,7 @@
     <application
         android:label="cc_flutter"
         android:name="${applicationName}"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
@@ -33,15 +34,15 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_native_app_key" />
-<!--        <meta-data-->
-<!--            android:name="com.naver.sdk.clientId"-->
-<!--            android:value="4HXHxlojLTDipchJR39W"/>-->
-<!--        <meta-data-->
-<!--            android:name="com.naver.sdk.clientSecret"-->
-<!--            android:value="SdV6e7cxB8"/>-->
-<!--        <meta-data-->
-<!--            android:name="com.naver.sdk.clientName"-->
-<!--            android:value="@string/client_name" />-->
+        <meta-data
+            android:name="com.naver.sdk.clientId"
+            android:value="4HXHxlojLTDipchJR39W"/>
+        <meta-data
+            android:name="com.naver.sdk.clientSecret"
+            android:value="SdV6e7cxB8"/>
+        <meta-data
+            android:name="com.naver.sdk.clientName"
+            android:value="@string/client_name" />
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">

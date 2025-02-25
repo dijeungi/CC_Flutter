@@ -1,7 +1,7 @@
 <resources>
     <string name="kakao_native_app_key">49758faf17894dc00e1ca9be4035f4d0</string>
-<!--    <string name="client_id">4HXHxlojLTDipchJR39W</string>-->
-<!--    <string name="client_secret">SdV6e7cxB8</string>-->
-<!--    <string name="client_name">com.example.cc_flutter</string>-->
+    <string name="client_id">4HXHxlojLTDipchJR39W</string>
+    <string name="client_secret">SdV6e7cxB8</string>
+    <string name="client_name">com.example.cc_flutter</string>
 
 </resources>
