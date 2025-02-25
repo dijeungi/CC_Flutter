@@ -23,7 +23,7 @@ class _StartPageState extends State<LoadingPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => MainPage(data: 2,
+        builder: (context) => MainPage(data: 2,id: '',email: '',nickname: '',
           // selectedLanguage: _selectedLanguage, // Pass selected language as argument
         ),
       ),

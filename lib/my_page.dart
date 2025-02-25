@@ -9,7 +9,10 @@ import 'login.dart';
 
 class MyPage extends StatefulWidget {
   final int data;
-  const MyPage({super.key,required this.data});
+  final String id;
+  final String email;
+  final String nickname;
+  const MyPage({super.key,required this.data,required this.id,required this.email,required this.nickname});
 
   @override
   State<MyPage> createState() => _MyPageState();
@@ -225,14 +228,17 @@ class _MyPageState extends State<MyPage> {
           ),
         ),
         //하단 바
-        bottomNavigationBar: BottomNavBar(data : widget.data),
+        bottomNavigationBar: BottomNavBar(data : widget.data,id: widget.id,email: widget.email,nickname: widget.nickname),
       ),
     );
   }
 }
 class BottomNavBar extends StatefulWidget {
   final int data;
-  const BottomNavBar({super.key,required this.data});
+  final String id;
+  final String email;
+  final String nickname;
+  const BottomNavBar({super.key,required this.data,required this.id,required this.email,required this.nickname});
 
 
   @override
@@ -240,6 +246,7 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
+
   late int _selectedIndex; // 현재 선택된 인덱스
 
   @override
@@ -256,7 +263,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SearchPage(data: _selectedIndex),
+          builder: (context) => SearchPage(data: _selectedIndex,id: widget.id,email: widget.email,nickname: widget.nickname),
         ),
       );
     }
@@ -264,7 +271,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => RankingPage(data: _selectedIndex),
+          builder: (context) => RankingPage(data: _selectedIndex,id: widget.id,email: widget.email,nickname: widget.nickname),
         ),
       );
     }
@@ -272,7 +279,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MainPage(data: _selectedIndex),
+          builder: (context) => MainPage(data: _selectedIndex,id: widget.id,email: widget.email,nickname: widget.nickname),
         ),
       );
     }
@@ -280,7 +287,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SettingPage(data: _selectedIndex),
+          builder: (context) => SettingPage(data: _selectedIndex,id: widget.id,email: widget.email,nickname: widget.nickname),
         ),
       );
     }

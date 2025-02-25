@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+// import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'main_page.dart';
 import 'loading.dart';
 
@@ -10,7 +11,7 @@ void main() async {
   await dotenv.load(fileName: ".env");
   KakaoSdk.init(
     nativeAppKey:  dotenv.env['KAKAO_NATIVE_APP_KEY'] ?? 'Not Found : KAKAO_NATIVE_APP_KEY', // '${KAKAO_NATIVE_APP_KEY}',
-    javaScriptAppKey: dotenv.env['KAKAO_JAVASCRIPT_APP_KEY'] ?? 'Not Found : KAKAO_JAVASCRIPT_APP_KEY' // '${YOUR_JAVASCRIPT_APP_KEY}',
+    // javaScriptAppKey: dotenv.env['KAKAO_JAVASCRIPT_APP_KEY'] ?? 'Not Found : KAKAO_JAVASCRIPT_APP_KEY' // '${YOUR_JAVASCRIPT_APP_KEY}',
   );
 
   runApp(const MyApp());

@@ -14,8 +14,10 @@ import 'my_page.dart';
 
 class SearchPage extends StatefulWidget {
   final int data;
-
-  const SearchPage({super.key,required this.data});
+  final String id;
+  final String email;
+  final String nickname;
+  const SearchPage({super.key,required this.data,required this.id,required this.email,required this.nickname});
 
 
   @override
@@ -57,7 +59,7 @@ class _SearchPageState extends State<SearchPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SearchResult(searchResult: value),
+          builder: (context) => SearchResult(searchResult: value,id: widget.id,email: widget.email,nickname: widget.nickname),
         ),
       );
   }
@@ -354,7 +356,7 @@ class _SearchPageState extends State<SearchPage> {
 
 
         //하단 바
-        bottomNavigationBar: BottomNavBar(data : widget.data),
+        bottomNavigationBar: BottomNavBar(data : widget.data,id: widget.id,email: widget.email,nickname: widget.nickname),
       ),
     );
   }
@@ -372,7 +374,10 @@ Widget _buildTrendIcon(String status) {
 
 class BottomNavBar extends StatefulWidget {
   final int data;
-  const BottomNavBar({super.key,required this.data});
+  final String id;
+  final String email;
+  final String nickname;
+  const BottomNavBar({super.key,required this.data,required this.id,required this.email,required this.nickname});
 
 
   @override
@@ -395,7 +400,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => RankingPage(data: _selectedIndex),
+          builder: (context) => RankingPage(data: _selectedIndex,id: widget.id,email: widget.email,nickname: widget.nickname),
         ),
       );
     }
@@ -403,7 +408,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MainPage(data: _selectedIndex),
+          builder: (context) => MainPage(data: _selectedIndex,id: widget.id,email: widget.email,nickname: widget.nickname),
         ),
       );
     }
@@ -411,7 +416,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MyPage(data: _selectedIndex),
+          builder: (context) => MyPage(data: _selectedIndex,id: widget.id,email: widget.email,nickname: widget.nickname),
         ),
       );
     }
@@ -419,7 +424,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SettingPage(data: _selectedIndex),
+          builder: (context) => SettingPage(data: _selectedIndex,id: widget.id,email: widget.email,nickname: widget.nickname),
         ),
       );
     }

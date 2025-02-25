@@ -1,30 +1,135 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
-// import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+// import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+// import 'package:flutter_naver_login/flutter_naver_login.dart';
+// import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+ import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  // final String dotenv_clientId = dotenv.env["NAVER_CLIENT_ID"] ?? "";
+  // final String dotenv_clientPw = dotenv.env["NAVER_CLIENT_SECRET"] ?? "";
+  // final String dotenv_redirectUri = dotenv.env["NAVER_REDIRECT_URL"] ?? "";
+  // static String generateRandomState(int length) {
+  //   const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  //   final random = Random.secure();
+  //   return List.generate(length, (_) => charset[random.nextInt(charset.length)]).join();
+  // }
+  LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String? _nickname;
+  // String? _navernickname;
+  // String? _naveremail;
+  // String? _naverid;
+  // String? _naverAccessToken;
+  // Future<void> _loginWithNaver() async {
+  //   try {
+  //     final NaverLoginResult result = await FlutterNaverLogin.logIn();
+  //
+  //     if (result.status == NaverLoginStatus.loggedIn) {
+  //       final NaverAccessToken accessToken = await FlutterNaverLogin.currentAccessToken;
+  //       final NaverAccountResult user = result.account;
+  //
+  //       setState(() {
+  //         _naverAccessToken = accessToken.accessToken;
+  //         _naveremail = user.email ?? '이메일 없음';
+  //         _navernickname = user.nickname ?? '닉네임 없음';
+  //       });
+  //
+  //       print('네이버 로그인 성공: ${user.nickname}, ${user.email}, ${accessToken.accessToken}');
+  //     } else {
+  //       print('네이버 로그인 실패: ${result.errorMessage}');
+  //     }
+  //   } catch (e) {
+  //     print('네이버 로그인 중 오류 발생: $e');
+  //   }
+  // }
+  //
+  // Future<void> _logout() async {
+  //   await FlutterNaverLogin.logOut();
+  //   setState(() {
+  //     _naverAccessToken = null;
+  //     _naveremail = null;
+  //     _navernickname = null;
+  //   });
+  //   print('네이버 로그아웃 성공');
+  // }
+// 사용 예시:
+//   final String state = LoginPage.generateRandomState(32); // ✅ 32자 랜덤 문자열 생성
+
+
+  //카카오
+  Future<List<Map<String, dynamic>>> fetchButtons(String accessToken) async {
+    final response = await http.get(
+
+        Uri.parse('http://10.0.2.2:8080/api/member/kakao?accessToken=$accessToken'));
+
+    if (response.statusCode == 200) {
+      // ✅ JSON 데이터를 List<Map<String, dynamic>> 형식으로 반환
+      final decodedBody = utf8.decode(response.bodyBytes);
+      Map<String, dynamic> jsonResponse = json.decode(decodedBody);
+      List<Map<String, dynamic>> result = jsonResponse.entries.map((entry) {
+        return {
+          entry.key: entry.value
+        };
+      }).toList();
+      return result;
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+  String? _kakaonickname;
+  String? _kakaoemail;
+  String? _kakaoid;
   Future<void> _loginWithKakao() async {
     try {
-      // ✅ 에뮬레이터에서는 직접 계정 로그인만 사용하도록 변경
-      await UserApi.instance.loginWithKakaoAccount();
-
-      User user = await UserApi.instance.me();
-      setState(() {
-        _nickname = user.kakaoAccount?.profile?.nickname ?? '닉네임 없음';
+      // ✅ 'isKakaoTalkLoginAvailable()' 대신 'loginWithKakaoTalk()' 사용
+      await UserApi.instance.loginWithKakaoTalk().then((_) async {
+        OAuthToken token = await TokenManagerProvider.instance.manager.getToken() as OAuthToken;
+        User user = await UserApi.instance.me();
+        setState(() {
+          _kakaonickname = user.kakaoAccount?.profile?.nickname ?? '닉네임 없음';
+          _kakaoemail = user.kakaoAccount?.email ?? '이메일 없음';
+          _kakaoid = user.id.toString() ?? 'id 없음';
+        });
+        print('카카오 로그인 성공: $_kakaonickname,$_kakaoemail,$_kakaoid,$token');
+      }).catchError((error) async {
+        // ✅ 카카오톡이 설치되지 않았을 때 계정 로그인 사용
+        await UserApi.instance.loginWithKakaoAccount();
+        OAuthToken token = await TokenManagerProvider.instance.manager.getToken() as OAuthToken;
+        User user = await UserApi.instance.me();
+        setState(() {
+          _kakaonickname = user.kakaoAccount?.profile?.nickname ?? '닉네임 없음';
+          _kakaoemail = user.kakaoAccount?.email ?? '이메일 없음';
+          _kakaoid = user.id.toString() ?? 'id 없음';
+        });
+        print('카카오 계정 로그인 성공: $_kakaonickname,$_kakaoemail,$_kakaoid,$token');
+        fetchButtons(token.accessToken.toString());
       });
-      print('카카오 로그인 성공: $_nickname');
     } catch (e) {
       print('카카오 로그인 실패: $e');
     }
   }
+
+  Future<void> _kakaologout() async {
+    try {
+      await UserApi.instance.logout();
+      setState(() {
+        _kakaonickname = '';
+      });
+      print('로그아웃 성공');
+    } catch (e) {
+      print('로그아웃 실패: $e');
+    }
+  }
+
   // 에뮬레이터 기준
   // Future<void> _loginWithKakao() async {
   //   try {
@@ -44,17 +149,6 @@ class _LoginPageState extends State<LoginPage> {
   //   }
   // }
 
-  Future<void> _logout() async {
-    try {
-      await UserApi.instance.logout();
-      setState(() {
-        _nickname = null;
-      });
-      print('로그아웃 성공');
-    } catch (e) {
-      print('로그아웃 실패: $e');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +234,9 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      // _loginWithNaver();
+                    },
                     child: Column(
                       children: [
                         CircleAvatar(

@@ -14,7 +14,10 @@ import 'package:intl/intl.dart';
 
 class MainPage extends StatefulWidget {
   final int data;
-  const MainPage({super.key,required this.data});
+  final String id;
+  final String email;
+  final String nickname;
+  const MainPage({super.key,required this.data,required this.id,required this.email,required this.nickname});
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -135,7 +138,7 @@ class _MainPageState extends State<MainPage> {
             automaticallyImplyLeading: false,
           ),
           //하단 바
-          bottomNavigationBar: BottomNavBar(),
+          bottomNavigationBar: BottomNavBar(id: widget.id,email: widget.email,nickname: widget.nickname),
           body: Container(
             decoration: BoxDecoration(
               border: Border(
@@ -391,7 +394,10 @@ class _MainPageState extends State<MainPage> {
 }
 
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({super.key});
+  final String id;
+  final String email;
+  final String nickname;
+  const BottomNavBar({super.key,required this.id,required this.email,required this.nickname});
 
   @override
   _BottomNavBarState createState() => _BottomNavBarState();
@@ -408,7 +414,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SearchPage(data: _selectedIndex),
+          builder: (context) => SearchPage(data: _selectedIndex,id: widget.id,email: widget.email,nickname: widget.nickname),
         ),
       );
     }
@@ -416,7 +422,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => RankingPage(data: _selectedIndex),
+          builder: (context) => RankingPage(data: _selectedIndex,id: widget.id,email: widget.email,nickname: widget.nickname),
         ),
       );
     }
@@ -424,7 +430,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MyPage(data: _selectedIndex),
+          builder: (context) => MyPage(data: _selectedIndex,id: widget.id,email: widget.email,nickname: widget.nickname),
         ),
       );
     }
@@ -432,7 +438,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SettingPage(data: _selectedIndex),
+          builder: (context) => SettingPage(data: _selectedIndex,id: widget.id,email: widget.email,nickname: widget.nickname),
         ),
       );
     }
